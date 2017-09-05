@@ -22,6 +22,12 @@ public class Admin extends Robot{
         this.zona1=new int[5];
         this.zona2=new int[5];
         this.zona3=new int[5];
+        for(int n=0;n<3;n++){
+        this.zona1[n]=0;
+        this.zona2[n]=0;
+        this.zona3[n]=0;
+        
+        }
     }
     public void retornar_inicio(){
     boolean nosur=false;
@@ -214,6 +220,22 @@ public class Admin extends Robot{
     
     
     
+    
+    }
+    public boolean parqueadero_lleno(){
+    int suma=0;
+    for(int i=0;i<3;i++){
+    suma+=this.zona1[i];
+    suma+=this.zona2[i];
+    suma+=this.zona3[i];
+    }
+    this.mirar_desocupado();
+        if(suma==15){
+        return true;
+        
+        }else{
+        return false;
+        }
     
     }
 }
