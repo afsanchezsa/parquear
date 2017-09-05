@@ -8,6 +8,9 @@ package becker;
 import becker.robots.City;
 import becker.robots.Direction;
 import becker.robots.Robot;
+import java.util.Calendar;
+import static java.util.Calendar.HOUR_OF_DAY;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -17,6 +20,7 @@ public class Admin extends Robot{
     private int[]zona1;
     private int[]zona2;
     private int[]zona3;
+   
     public Admin(City city, int i, int i1, Direction drctn) {
         super(city, i, i1, drctn);
         this.zona1=new int[5];
@@ -28,6 +32,7 @@ public class Admin extends Robot{
         this.zona3[n]=0;
         
         }
+        
     }
     public void retornar_inicio(){
     boolean nosur=false;
@@ -224,12 +229,13 @@ public class Admin extends Robot{
     }
     public boolean parqueadero_lleno(){
     int suma=0;
+    this.mirar_desocupado();
     for(int i=0;i<3;i++){
     suma+=this.zona1[i];
     suma+=this.zona2[i];
     suma+=this.zona3[i];
     }
-    this.mirar_desocupado();
+    
         if(suma==15){
         return true;
         
@@ -238,4 +244,5 @@ public class Admin extends Robot{
         }
     
     }
+    
 }

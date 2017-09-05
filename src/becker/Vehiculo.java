@@ -9,6 +9,9 @@ import becker.robots.City;
 import becker.robots.Direction;
 import becker.robots.Thing;
 import becker.robots.icons.Icon;
+import java.util.Calendar;
+import static java.util.Calendar.HOUR_OF_DAY;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -17,9 +20,11 @@ import becker.robots.icons.Icon;
 public class Vehiculo extends Thing {
     private String Placa;
     private int numero;
+     Calendar calendario;
     public Vehiculo(City city, int i, int i1, Direction drctn,String Placa) {
         super(city, i, i1, drctn);
         this.Placa=Placa;
+        this.calendario=new GregorianCalendar();
     }
 
     public String getPlaca() {
@@ -33,6 +38,9 @@ public class Vehiculo extends Thing {
     this.Placa=Placa;
     
     }
+    public int getHora(){
+    return this.calendario.get(HOUR_OF_DAY);
     
+    }
     
 }

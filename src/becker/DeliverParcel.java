@@ -30,6 +30,12 @@ public class DeliverParcel
        admin.mirar_desocupado();
        zona=zona_con_menos_vehiculos(admin.getZona1(), admin.getZona2(), admin.getZona3());
        admin.parquear_en_la_zona(zona);
+       admin.retornar_inicio();
+       if(admin.parqueadero_lleno()){
+           System.out.println("el parqueadero esta lleno");
+       }else{
+           System.out.println("el parqueadero tiene cupos");
+       }
        
        
       
@@ -59,7 +65,7 @@ public class DeliverParcel
   public static void ingresar_vehiculo(ArrayList<Vehiculo>vehiculos,String Placa,City ciudad){
   Vehiculo vehiculo=new Vehiculo(ciudad, 9, 19, Direction.EAST,Placa);
   vehiculos.add(vehiculo);
-  
+      System.out.println("hora: "+vehiculo.getHora()+":00");
   }
   public static int zona_con_menos_vehiculos(int[]zona1,int[]zona2,int[]zona3){
   int suma1=0,suma2=0,suma3=0;
