@@ -36,6 +36,10 @@ public class DeliverParcel
        }else{
            System.out.println("el parqueadero tiene cupos");
        }
+       //-------sacar carro
+       for(int i=0;i<vehiculos.size();i++){
+       vehiculos.get(i).setposicion();
+       }
        
        
       
@@ -97,9 +101,19 @@ public class DeliverParcel
   }
   return 0;
   }
+   public void sacar_vehiculo(int seccion, String placa,ArrayList<Vehiculo>vehiculos){
+  for(Vehiculo v:vehiculos){
+      if(v.getPlaca().equalsIgnoreCase(placa)){
+      
+      }
+      
+      
+  }}
   
+  
+  }
   
    
-   }
+   
 
 

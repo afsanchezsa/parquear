@@ -170,6 +170,7 @@ public class Admin extends Robot{
     for(int i=0;i<6;i++){
     if(this.canPickThing()==false&&this.countThingsInBackpack()!=0){
     this.putThing();
+    
     }else{
     this.move();
     }
@@ -244,5 +245,5 @@ public class Admin extends Robot{
         }
     
     }
-    
-}
+   
+    }

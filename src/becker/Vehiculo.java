@@ -21,6 +21,8 @@ public class Vehiculo extends Thing {
     private String Placa;
     private int numero;
      Calendar calendario;
+     private int avenue;
+     private int street;
     public Vehiculo(City city, int i, int i1, Direction drctn,String Placa) {
         super(city, i, i1, drctn);
         this.Placa=Placa;
@@ -41,6 +43,18 @@ public class Vehiculo extends Thing {
     public int getHora(){
     return this.calendario.get(HOUR_OF_DAY);
     
+    }
+
+    public int getAvenue() {
+        return avenue;
+    }
+
+    public int getStreet() {
+        return street;
+    }
+    public void setposicion(){
+    this.avenue=this.getAvenue();
+    this.street=this.getStreet();
     }
     
 }
