@@ -25,12 +25,27 @@ public class DeliverParcel
        
        
        ingresar_vehiculo(vehiculos, "htsn", prague);
+       
+       
        Admin admin=new Admin(prague, 4, 8, Direction.EAST);
        admin.retornar_inicio();
        admin.mirar_desocupado();
        zona=zona_con_menos_vehiculos(admin.getZona1(), admin.getZona2(), admin.getZona3());
        admin.parquear_en_la_zona(zona);
+       
        admin.retornar_inicio();
+       //-----------------------------------
+       ingresar_vehiculo(vehiculos, "andres", prague);
+       admin.retornar_inicio();
+       admin.mirar_desocupado();
+       zona=zona_con_menos_vehiculos(admin.getZona1(), admin.getZona2(), admin.getZona3());
+       admin.parquear_en_la_zona(zona);
+       
+       admin.retornar_inicio(); 
+       //_-------------------------------------------------
+       
+       
+       
        if(admin.parqueadero_lleno()){
            System.out.println("el parqueadero esta lleno");
        }else{
@@ -40,6 +55,8 @@ public class DeliverParcel
        for(int i=0;i<vehiculos.size();i++){
        vehiculos.get(i).setposicion();
        }
+       int callevehiculo=calle_vehiculo(2, "htsn", vehiculos);
+       admin.sacar_vehiculo(1, callevehiculo);
        
        
       
@@ -101,14 +118,17 @@ public class DeliverParcel
   }
   return 0;
   }
-   public void sacar_vehiculo(int seccion, String placa,ArrayList<Vehiculo>vehiculos){
-  for(Vehiculo v:vehiculos){
+   public static int calle_vehiculo(int seccion, String placa,ArrayList<Vehiculo>vehiculos){
+  int street=0;
+       for(Vehiculo v:vehiculos){
       if(v.getPlaca().equalsIgnoreCase(placa)){
-      
+      street=v.getStreet();
       }
       
       
-  }}
+  }
+   return street;
+   }
   
   
   }

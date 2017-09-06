@@ -16,129 +16,130 @@ import java.util.GregorianCalendar;
  *
  * @author COMPAQ
  */
-public class Admin extends Robot{
-    private int[]zona1;
-    private int[]zona2;
-    private int[]zona3;
-   
+public class Admin extends Robot {
+
+    private int[] zona1;
+    private int[] zona2;
+    private int[] zona3;
+
     public Admin(City city, int i, int i1, Direction drctn) {
         super(city, i, i1, drctn);
-        this.zona1=new int[5];
-        this.zona2=new int[5];
-        this.zona3=new int[5];
-        for(int n=0;n<3;n++){
-        this.zona1[n]=0;
-        this.zona2[n]=0;
-        this.zona3[n]=0;
-        
+        this.zona1 = new int[5];
+        this.zona2 = new int[5];
+        this.zona3 = new int[5];
+        for (int n = 0; n < 3; n++) {
+            this.zona1[n] = 0;
+            this.zona2[n] = 0;
+            this.zona3[n] = 0;
+
         }
-        
+
     }
-    public void retornar_inicio(){
-    boolean nosur=false;
-        int y=this.getStreet();
-    int x=this.getAvenue();
-    if(y<9){
-    Direction direccion=this.getDirection();
-    if(direccion!=Direction.SOUTH){
-    nosur=true;
+
+    public void retornar_inicio() {
+        boolean nosur = false;
+        int y = this.getStreet();
+        int x = this.getAvenue();
+        if (y < 9) {
+            Direction direccion = this.getDirection();
+            if (direccion != Direction.SOUTH) {
+                nosur = true;
+            }
+            while (nosur) {
+                this.turnLeft();
+                nosur = this.getDirection() != Direction.SOUTH;
+            }
+            for (int i = y; i < 9; i++) {
+                this.move();
+            }
+        }
+        this.turnLeft();
+        while (x < 19) {
+            this.move();
+            x = this.getAvenue();
+        }
+        this.turnLeft();
+        this.turnLeft();
     }
-    while(nosur){
-    this.turnLeft();
-    nosur=this.getDirection()!=Direction.SOUTH;
-    }
-    for(int i=y;i<9;i++){
-    this.move();
-    }
-    }
-    this.turnLeft();
-    while(x<19){
-    this.move();
-    x=this.getAvenue();
-    }
-    this.turnLeft();
-    this.turnLeft();
-    }
-    public void mirar_desocupado(){
-    //for(int i=19;i>5;i--){
-    this.move();
+
+    public void mirar_desocupado() {
+        //for(int i=19;i>5;i--){
         this.move();
         this.move();
         this.move();
         this.move();
         this.move();
         this.move();
-    if(this.getAvenue()==12||this.getAvenue()==8||this.getAvenue()==4){
-    this.turnLeft();
-    this.turnLeft();
-    this.turnLeft();
-    for(int j=0;j<5;j++){
-    if(this.getAvenue()==12){
-    this.move();
-    zona3[j]=this.canPickThing()?1:0;
+        this.move();
+        if (this.getAvenue() == 12 || this.getAvenue() == 8 || this.getAvenue() == 4) {
+            this.turnLeft();
+            this.turnLeft();
+            this.turnLeft();
+            for (int j = 0; j < 5; j++) {
+                if (this.getAvenue() == 12) {
+                    this.move();
+                    zona3[j] = this.canPickThing() ? 1 : 0;
+                }
+            }
+            this.salir_de_zona();
+            this.turnLeft();
+            this.turnLeft();
+            this.turnLeft();
+            this.move();
+            this.move();
+            this.move();
+            this.move();
+            if (this.getAvenue() == 8) {
+                this.turnLeft();
+                this.turnLeft();
+                this.turnLeft();
+                for (int j = 0; j < 5; j++) {
+
+                    this.move();
+                    zona2[j] = this.canPickThing() ? 1 : 0;
+
+                }
+                this.salir_de_zona();
+            }
+
+            this.turnLeft();
+            this.turnLeft();
+            this.turnLeft();
+            this.move();
+            this.move();
+            this.move();
+            this.move();
+            if (this.getAvenue() == 4) {
+                this.turnLeft();
+                this.turnLeft();
+                this.turnLeft();
+                for (int j = 0; j < 5; j++) {
+
+                    this.move();
+                    zona1[j] = this.canPickThing() ? 1 : 0;
+
+                }
+
+            }
+            this.salir_de_zona();
+
+        }
+        this.retornar_inicio();
+
     }
-    }
-    this.salir_de_zona();
-    this.turnLeft();
-    this.turnLeft();
-    this.turnLeft();
-    this.move();
-    this.move();
-    this.move();
-    this.move();
-    if(this.getAvenue()==8){
-    this.turnLeft();
-    this.turnLeft();
-    this.turnLeft();
-    for(int j=0;j<5;j++){
-    
-    this.move();
-    zona2[j]=this.canPickThing()?1:0;
-    
-    }
-    this.salir_de_zona();
-    }
-    
-    
-  
-    this.turnLeft();
-    this.turnLeft();
-    this.turnLeft();
-    this.move();
-    this.move();
-    this.move();
-    this.move();
-    if(this.getAvenue()==4){
-    this.turnLeft();
-    this.turnLeft();
-    this.turnLeft();
-    for(int j=0;j<5;j++){
-    
-    this.move();
-    zona1[j]=this.canPickThing()?1:0;
-    
-    }
-    
-    }
-    this.salir_de_zona();
-    
-    }
-    this.retornar_inicio();
-   
-    
-    }
-    public void salir_de_zona(){
-    int x;
-    x=this.getStreet();
-    Direction direccion=this.getDirection();
-    while(direccion!=Direction.SOUTH){
-    this.turnLeft();
-    direccion=this.getDirection();
-    }
-    while(x<9){
-    this.move();
-    x++;
-    }
+
+    public void salir_de_zona() {
+        int x;
+        x = this.getStreet();
+        Direction direccion = this.getDirection();
+        while (direccion != Direction.SOUTH) {
+            this.turnLeft();
+            direccion = this.getDirection();
+        }
+        while (x < 9) {
+            this.move();
+            x++;
+        }
     }
 
     public int[] getZona1() {
@@ -152,98 +153,148 @@ public class Admin extends Robot{
     public int[] getZona3() {
         return zona3;
     }
-    public void parquear_en_la_zona(int zona){
+
+    public void parquear_en_la_zona(int zona) {
         this.pickThing();
-    if(zona==3){
-    for(int i=0;i<7;i++){
-    this.move();
-    }
-    this.turnLeft();
-    this.turnLeft();
-    this.turnLeft();
-    for(int i=0;i<5;i++){
-    this.move();
-    }
-     this.turnLeft();
-    this.turnLeft();
-    
-    for(int i=0;i<6;i++){
-    if(this.canPickThing()==false&&this.countThingsInBackpack()!=0){
-    this.putThing();
-    
-    }else{
-    this.move();
-    }
-    
-    }
-    }
-    //------------------------------------------------------------------------
-    if(zona==2){
-    for(int i=0;i<11;i++){
-    this.move();
-    }
-    this.turnLeft();
-    this.turnLeft();
-    this.turnLeft();
-    for(int i=0;i<5;i++){
-    this.move();
-    }
-     this.turnLeft();
-    this.turnLeft();
-    
-    for(int i=0;i<6;i++){
-    if(this.canPickThing()==false&&this.countThingsInBackpack()!=0){
-    this.putThing();
-    }else{
-    this.move();
-    }
-    
-    }
-    }
-    //-----------------------------------------
-    if(zona==1){
-    for(int i=0;i<15;i++){
-    this.move();
-    }
-    this.turnLeft();
-    this.turnLeft();
-    this.turnLeft();
-    for(int i=0;i<5;i++){
-    this.move();
-    }
-     this.turnLeft();
-    this.turnLeft();
-    
-    for(int i=0;i<6;i++){
-    if(this.canPickThing()==false&&this.countThingsInBackpack()!=0){
-    this.putThing();
-    }else{
-    this.move();
-    }
-    
-    }
-    }
-    
-    
-    
-    
-    }
-    public boolean parqueadero_lleno(){
-    int suma=0;
-    this.mirar_desocupado();
-    for(int i=0;i<3;i++){
-    suma+=this.zona1[i];
-    suma+=this.zona2[i];
-    suma+=this.zona3[i];
-    }
-    
-        if(suma==15){
-        return true;
-        
-        }else{
-        return false;
+        if (zona == 3) {
+            for (int i = 0; i < 7; i++) {
+                this.move();
+            }
+            this.turnLeft();
+            this.turnLeft();
+            this.turnLeft();
+            for (int i = 0; i < 5; i++) {
+                this.move();
+            }
+            this.turnLeft();
+            this.turnLeft();
+
+            for (int i = 0; i < 6; i++) {
+                if (this.canPickThing() == false && this.countThingsInBackpack() != 0) {
+                    this.putThing();
+
+                } else {
+                    this.move();
+                }
+
+            }
         }
-    
+        //------------------------------------------------------------------------
+        if (zona == 2) {
+            for (int i = 0; i < 11; i++) {
+                this.move();
+            }
+            this.turnLeft();
+            this.turnLeft();
+            this.turnLeft();
+            for (int i = 0; i < 5; i++) {
+                this.move();
+            }
+            this.turnLeft();
+            this.turnLeft();
+
+            for (int i = 0; i < 6; i++) {
+                if (this.canPickThing() == false && this.countThingsInBackpack() != 0) {
+                    this.putThing();
+                } else {
+                    this.move();
+                }
+
+            }
+        }
+        //-----------------------------------------
+        if (zona == 1) {
+            for (int i = 0; i < 15; i++) {
+                this.move();
+            }
+            this.turnLeft();
+            this.turnLeft();
+            this.turnLeft();
+            for (int i = 0; i < 5; i++) {
+                this.move();
+            }
+            this.turnLeft();
+            this.turnLeft();
+
+            for (int i = 0; i < 6; i++) {
+                if (this.canPickThing() == false && this.countThingsInBackpack() != 0) {
+                    this.putThing();
+                } else {
+                    this.move();
+                }
+
+            }
+        }
+
     }
-   
+
+    public boolean parqueadero_lleno() {
+        int suma = 0;
+        this.mirar_desocupado();
+        for (int i = 0; i < 3; i++) {
+            suma += this.zona1[i];
+            suma += this.zona2[i];
+            suma += this.zona3[i];
+        }
+
+        if (suma == 15) {
+            return true;
+
+        } else {
+            return false;
+        }
+
     }
+
+    public void sacar_vehiculo(int zona, int street) {
+        int topex = 0, topey = street, posprovisional;
+        if (zona == 3) {
+            topex = 12;
+        } else if (zona == 2) {
+            topex = 8;
+        } else if (zona == 1) {
+            topex = 4;
+        } else {
+            System.out.println(" seccion no definida");
+        }
+        boolean llegar=false;
+        while(!llegar){
+        
+        if (this.getAvenue() != topex) {
+            this.move();
+        } else {
+            this.turnLeft();
+            this.turnLeft();
+            this.turnLeft();
+            llegar=true;
+        }
+
+            for (int i = this.getStreet(); i < topey; i--) {
+                this.move();
+                if (this.canPickThing()) {
+                    posprovisional = this.getStreet() - 3;
+                    this.pickThing();
+                    this.turnLeft();
+                    this.turnLeft();
+                    this.retornar_inicio();
+                    for (int j = 6; j > posprovisional - 1; j--) {
+                        this.move();
+                    }
+                    this.turnLeft();
+                    this.turnLeft();
+                    this.turnLeft();
+                    this.move();
+                    this.putThing();
+                    break;
+                    //this.sacar_vehiculo(zona,street);
+                }
+            }
+            this.turnLeft();
+            this.turnLeft();
+            this.pickThing();
+
+        }
+
+    }
+
+}
