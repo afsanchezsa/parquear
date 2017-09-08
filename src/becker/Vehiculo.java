@@ -56,5 +56,10 @@ public class Vehiculo extends Thing {
     this.avenue=this.getAvenue();
     this.street=this.getStreet();
     }
+
+    public void setStreet(int street) {
+        this.street = street;
+    }
+    
     
 }

@@ -8,6 +8,8 @@ package becker;
 import becker.robots.City;
 import becker.robots.Direction;
 import becker.robots.Robot;
+import becker.robots.Thing;
+import java.util.ArrayList;
 import java.util.Calendar;
 import static java.util.Calendar.HOUR_OF_DAY;
 import java.util.GregorianCalendar;
@@ -158,8 +160,9 @@ public class Admin extends Robot {
         return zona3;
     }
 
-    public void parquear_en_la_zona(int zona) {
+    public int parquear_en_la_zona(int zona) {
         this.pickThing();
+        int calle=0;
         if (zona == 3) {
             for (int i = 0; i < 7; i++) {
                 this.move();
@@ -176,7 +179,7 @@ public class Admin extends Robot {
             for (int i = 0; i < 6; i++) {
                 if (this.canPickThing() == false && this.countThingsInBackpack() != 0) {
                     this.putThing();
-
+                    calle=this.getStreet();
                 } else {
                     this.move();
                 }
@@ -200,6 +203,7 @@ public class Admin extends Robot {
             for (int i = 0; i < 6; i++) {
                 if (this.canPickThing() == false && this.countThingsInBackpack() != 0) {
                     this.putThing();
+                    calle=this.getStreet();
                 } else {
                     this.move();
                 }
@@ -223,6 +227,7 @@ public class Admin extends Robot {
             for (int i = 0; i < 6; i++) {
                 if (this.canPickThing() == false && this.countThingsInBackpack() != 0) {
                     this.putThing();
+                    this.getStreet();
                 } else {
                     this.move();
                 }
@@ -230,6 +235,7 @@ public class Admin extends Robot {
             }
         }
 
+    return calle;
     }
 
     public boolean parqueadero_lleno() {
@@ -330,6 +336,7 @@ public class Admin extends Robot {
 
     public void exit_vehiculo(int zona, int street) {
         int topex = 0, topey = street, posprovisional, calle;
+         boolean []parqueaderos;
         if (zona == 3) {
             topex = 12;
         } else if (zona == 2) {
@@ -342,21 +349,46 @@ public class Admin extends Robot {
         /*while(this.getAvenue()!=topex){
 this.move();
 
-} */ do {
+} */ 
+        
+        do {
             while (this.getAvenue() != topex) {
                 this.move();
 
             }
             calle = extraer(street);
-            parquearenprovisional();
-        } while (calle + 1 <= street);
-
+             parqueaderos=this.provisional();
+            parquearenprovisional2(parqueaderos);
+            
+        } while (calle-1> street);
+        
         while (this.getAvenue() != topex) {
-            this.move();
+                this.move();
 
-        }
+            }
         extraer(street);
+        this.turnLeft();
+        this.turnLeft();
+        this.turnLeft();
+        this.move();
+        this.putThing();
+        this.turnLeft();
+        this.turnLeft();
+        this.move();
+this.turnLeft();
+this.turnLeft();
+this.turnLeft();
 
+       // while (this.getAvenue() != topex) {
+         //   this.move();
+
+        //}
+        //calle=extraer(street);
+       /* parqueaderos=this.provisional();
+        parquearenprovisional2(parqueaderos);
+        calle=extraer(street);
+        parqueaderos=this.provisional();
+*/
     }
 
     public int extraer(int street) {
@@ -409,8 +441,13 @@ this.move();
 
     public void parquearenprovisional() {
         boolean parqueado = false;
-        while (!parqueado) {
+        this.move();
+            this.turnLeft();
+            this.turnLeft();
+            this.turnLeft();
             this.move();
+        while (!parqueado) {
+    //_-------        /*this.move();
             this.turnLeft();
             this.turnLeft();
             this.turnLeft();
@@ -428,7 +465,7 @@ this.move();
                 //this.turnLeft();
                 parqueado = true;
                 this.retornar_inicio();
-                break;
+               // break;
             } else {
                 /*this.turnLeft();
                 this.turnLeft();
@@ -477,9 +514,11 @@ this.move();
             this.turnLeft();
             this.turnLeft();
             this.move();
-            if (this.canPickThing()) {
-                this.pickThing();
-                this.turnLeft();
+            this.turnLeft();
+            if (!this.canPickThing()) {
+               // this.pickThing();
+               this.putThing();
+               this.turnLeft();
                 this.turnLeft();
                 this.move();
                 this.turnLeft();
@@ -507,7 +546,13 @@ this.move();
                     }
                 }
             }//------
-
+            else{
+                this.turnLeft();
+            while(!this.canPickThing()){
+            this.move();
+            }
+      this.putThing();
+            }/*
             this.move();
             this.turnLeft();
             this.turnLeft();
@@ -522,9 +567,183 @@ this.move();
                     this.retornar_inicio();
                 }
 
-            }
+            }*/
         }
 
     }
+public boolean[] provisional(){
+boolean []parqueaderospro=new boolean[4];
+this.move();
+this.turnLeft();
+this.turnLeft();
+this.turnLeft();
+this.move();
+this.turnLeft();
+for(int i=0;i<3;i++){
+parqueaderospro[i]=this.canPickThing();
+        this.move();
+        
+} 
+this.turnLeft();
+this.move();
+this.turnLeft();
+this.move();
+this.move();
+this.move();
+this.move();
+this.turnLeft();
+this.turnLeft();
+
+ 
+return parqueaderospro;
 
 }
+public void parquearlo_en_provisional(boolean[]parqueaderospro){
+this.move();
+this.turnLeft();
+this.turnLeft();
+this.turnLeft();
+this.move();
+this.turnLeft();
+for(int i=0;i<4;i++){
+if(parqueaderospro[i]==true){
+this.putThing();
+break;
+}else{
+this.move();
+}
+
+}
+this.retornar_inicio();
+}
+ public void parquearenprovisional2(boolean []parqueaderos) {
+       this.move();
+       this.turnLeft();
+       this.turnLeft();
+       this.turnLeft();
+       
+       this.move();
+       this.turnLeft();
+       for(int i=0;i<4;i++){
+       if(parqueaderos[i]==false){
+       this.putThing();
+       this.retornar_inicio();
+       
+       break;
+       }else{
+       this.move();
+       }
+       }
+ }
+    /**
+     *
+     * @param zona
+     * @param placa
+     * @return
+     */
+   /* public int calle_vehiculo2(int zona,String placa){
+           int topex = 0,calle=0;
+        if (zona == 3) {
+            topex = 12;
+        } else if (zona == 2) {
+            topex = 8;
+        } else if (zona == 1) {
+            topex = 4;
+        } else {
+            System.out.println(" seccion no definida");
+        }
+        while (this.getAvenue() != topex) {
+                    this.move();
+
+                }
+        this.turnLeft();
+        this.turnLeft();
+        this.turnLeft();
+        
+        this.move();
+        this.pickThing();
+        Iterator cosas=(Iterator) this.examineThings();
+        for(Thing t:cosas){
+        
+        }
+        
+       return calle;
+       }
+      */ 
+    public void devolverdelprovisional2(int zona) {
+        boolean todosretornados = false;
+        int topex = 0;
+        if (zona == 3) {
+            topex = 12;
+        } else if (zona == 2) {
+            topex = 8;
+        } else if (zona == 1) {
+            topex = 4;
+        } else {
+            System.out.println(" seccion no definida");
+        }
+        boolean[]provisional=this.provisional();
+        for(int i=0;i<4;i++){
+        todosretornados=todosretornados||provisional[i];
+        }
+        
+       int n=1;
+       int p=0;
+            while(todosretornados){
+            for(int i=0;i<n;i++){
+            this.move();
+            }
+             
+            
+            
+                
+            this.turnLeft();
+            this.turnLeft();
+            this.turnLeft();
+            this.move();
+            this.turnLeft();
+            
+           if(!this.canPickThing()){
+           this.move();
+           }else{
+           this.pickThing();
+           this.retornar_inicio();
+           while(this.getAvenue()!=topex){
+           this.move();
+           }
+           this.turnLeft();
+           this.turnLeft();
+           this.turnLeft();
+            for(int i=0;i<5;i++){
+            this.move();
+            }
+            this.turnLeft();
+            this.turnLeft();
+            
+            for(int i=0;i<5;i++){
+            if(!this.canPickThing()){
+            this.putThing();
+            this.retornar_inicio();
+            break;
+            }else{
+            this.move();
+            }
+            
+            
+            
+            }
+            
+           }
+        todosretornados=false;
+           provisional=this.provisional();
+        for(int i=0;i<4;i++){
+        todosretornados=todosretornados||provisional[i];
+        }
+        n++;
+        
+       }
+    }         
+        
+}
+
+
