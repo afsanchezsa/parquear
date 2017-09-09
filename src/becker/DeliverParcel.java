@@ -30,12 +30,113 @@ public class DeliverParcel
        crear_linea_muros(prague, 10, 3, 6, Direction.EAST, Direction.SOUTH);
        crear_linea_muros(prague, 14, 3, 6, Direction.EAST, Direction.SOUTH);
        Scanner in=new Scanner(System.in);
-       int seccion;
+       int seccion,street,zonacomodin;
+       boolean siguiendo=true;
+      int entrada,callevehiculo;
+      String placa;
+      double tarifaparqueadero, ingresos=0;
+        Admin admin=new Admin(prague, 9, 19, Direction.WEST);
+       System.out.println("ingrese la tarifa por minuto");
+       tarifaparqueadero=in.nextDouble();
+      while(siguiendo){
+       System.out.println("seleccione una opcion:");
+       System.out.println("1.ingresar un carro");
+       System.out.println("2.sacar un carro");
+       System.out.println("3.mostrar vehiculos por seccion");
+       System.out.println("4. generar los ingresos obtenidos");       
+       entrada=in.nextByte();
+      if(entrada==1){
+          System.out.println("ingrese la placa del vehiculo");
+      placa=in.next();
+       vehiculo=ingresar_vehiculo(vehiculos, placa, prague);
+       
+      
+       admin.mirar_desocupado();
+       zona=zona_con_menos_vehiculos(admin.getZona1(), admin.getZona2(), admin.getZona3());
+       vehiculo.setSeccion(zona);
+              
+       System.out.println("zona"+zona);
+       calle=admin.parquear_en_la_zona(zona);
+          System.out.println("calle donde queda: "+calle);
+       vehiculo.setStreet(calle);
+     
+       
+       vehiculos.add(vehiculo);
+       admin.retornar_inicio(); 
+      }else if(entrada==2){
+           System.out.println("ingrese la placa del vehiculo");
+      placa=in.next();
+          System.out.println("ingrese la seccion");
+          seccion=in.nextInt();
+           
+       
+      callevehiculo=calle_vehiculo(seccion, placa, vehiculos);
+      
+      
+       System.out.println("calle"+callevehiculo);
+       //admin.sacar_vehiculo(1, callevehiculo);
+       admin.exit_vehiculo2(seccion, callevehiculo);
+       ingresos+=horasalida(placa, vehiculos,tarifaparqueadero);
+       vehiculos=anularcarro(placa,vehiculos);//para borrarlo del parqueadero
+       //------------delvover vehiculos a parqueadero
+       admin.devolverdelprovisional2(seccion);
+      
+      
+      } else if(entrada==3){
+       boolean seguir=true;
+      String siono;
+       
+            System.out.println("inserte la seccion para mostrar sus autos");
+      seccion=in.nextInt();
+          System.out.println("los vehiculos en la seccion "+seccion+"son: ");
+       for(Vehiculo v:vehiculos){
+      if(v.getSeccion()==1&&seccion==1){
+          System.out.println(v.getPlaca());
+          
+      }else if(v.getSeccion()==2&&seccion==2){
+        System.out.println(v.getPlaca());
+          
+      }else if(v.getSeccion()==3&&seccion==3){
+        System.out.println(v.getPlaca());
+          
+      }
+      }
+      
+      }else if(entrada==4){
+      
+          System.out.println("el ingreso es :"+ingresos);
+      }
+      
+      
+      
+          System.out.println("desea continuar en el simulador y/other");
+          if(in.next().equalsIgnoreCase("y")){
+          
+          }else{
+          
+          siguiendo=false;
+          }
+      
+      
+      }
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
        
        ingresar_vehiculo(vehiculos, "htsn", prague);
        
        
-       Admin admin=new Admin(prague, 4, 8, Direction.EAST);
+     
        admin.retornar_inicio();
        admin.mirar_desocupado();
        zona=zona_con_menos_vehiculos(admin.getZona1(), admin.getZona2(), admin.getZona3());
@@ -46,14 +147,18 @@ public class DeliverParcel
        //-----------------------------------
         vehiculo=ingresar_vehiculo(vehiculos, "andres", prague);
        //admin.retornar_inicio();
-       vehiculos.add(vehiculo);
+      
        admin.mirar_desocupado();
        zona=zona_con_menos_vehiculos(admin.getZona1(), admin.getZona2(), admin.getZona3());
-       
+       vehiculo.setSeccion(zona);
               
        System.out.println("zona"+zona);
        calle=admin.parquear_en_la_zona(zona);
-       vehiculos.get(vehiculos.size()-1).setStreet(calle);
+       vehiculo.setStreet(calle);
+       //vehiculos.get(vehiculos.size()-1).setStreet(calle);
+       //vehiculos.get(vehiculos.size()-1).setSeccion(zona);
+       
+       vehiculos.add(vehiculo);
        admin.retornar_inicio(); 
      
        //_-------------------------------------------------
@@ -66,76 +171,88 @@ public class DeliverParcel
        System.out.println("zona"+zona);
        calle=admin.parquear_en_la_zona(zona);
        vehiculos.get(vehiculos.size()-1).setStreet(calle);
+       vehiculos.get(vehiculos.size()-1).setSeccion(zona);
        admin.retornar_inicio(); 
        //_-----------------------------------------
-       ingresar_vehiculo(vehiculos, "feli", prague);
+       vehiculo=ingresar_vehiculo(vehiculos, "feli", prague);
       // admin.retornar_inicio();
+      vehiculos.add(vehiculo);
        admin.mirar_desocupado();
        zona=zona_con_menos_vehiculos(admin.getZona1(), admin.getZona2(), admin.getZona3());
        
        System.out.println("zona"+zona);
-       admin.parquear_en_la_zona(zona);
-       
+       calle=admin.parquear_en_la_zona(zona);
+       vehiculos.get(vehiculos.size()-1).setStreet(calle);
+       vehiculos.get(vehiculos.size()-1).setSeccion(zona);
        admin.retornar_inicio(); 
        //------------------------------------------------------
-       ingresar_vehiculo(vehiculos, "fe", prague);
+       vehiculo=ingresar_vehiculo(vehiculos, "fe", prague);
       // admin.retornar_inicio();
-       admin.mirar_desocupado();
+      vehiculos.add(vehiculo);
+      admin.mirar_desocupado();
        zona=zona_con_menos_vehiculos(admin.getZona1(), admin.getZona2(), admin.getZona3());
        
        System.out.println("zona"+zona);
-       admin.parquear_en_la_zona(zona);
+       calle=admin.parquear_en_la_zona(zona);
+       vehiculos.get(vehiculos.size()-1).setStreet(calle);
+       vehiculos.get(vehiculos.size()-1).setSeccion(zona);
        
        admin.retornar_inicio(); 
        //--------------------------------------------------
-       ingresar_vehiculo(vehiculos, "alisson", prague);
+       vehiculo=ingresar_vehiculo(vehiculos, "alisson", prague);
       // admin.retornar_inicio();
-       admin.mirar_desocupado();
+      vehiculos.add(vehiculo);
+      admin.mirar_desocupado();
        zona=zona_con_menos_vehiculos(admin.getZona1(), admin.getZona2(), admin.getZona3());
        
        System.out.println("zona"+zona);
-       admin.parquear_en_la_zona(zona);
-       
+       calle=admin.parquear_en_la_zona(zona);
+       vehiculos.get(vehiculos.size()-1).setStreet(calle);
+       vehiculos.get(vehiculos.size()-1).setSeccion(zona);
        admin.retornar_inicio(); 
        //-------------------------------------------------------------------------
-        ingresar_vehiculo(vehiculos, "alisson2", prague);
+        vehiculo=ingresar_vehiculo(vehiculos, "alisson2", prague);
       // admin.retornar_inicio();
        admin.mirar_desocupado();
        zona=zona_con_menos_vehiculos(admin.getZona1(), admin.getZona2(), admin.getZona3());
        
        System.out.println("zona"+zona);
-       admin.parquear_en_la_zona(zona);
-       
+      calle= admin.parquear_en_la_zona(zona);
+       vehiculos.get(vehiculos.size()-1).setStreet(calle);
+       vehiculos.get(vehiculos.size()-1).setSeccion(zona);
        admin.retornar_inicio(); 
 //------------------------------------------------
-ingresar_vehiculo(vehiculos, "juliana", prague);
+vehiculo=ingresar_vehiculo(vehiculos, "juliana", prague);
       // admin.retornar_inicio();
        admin.mirar_desocupado();
        zona=zona_con_menos_vehiculos(admin.getZona1(), admin.getZona2(), admin.getZona3());
        
        System.out.println("zona"+zona);
-       admin.parquear_en_la_zona(zona);
-       
+       calle=admin.parquear_en_la_zona(zona);
+       vehiculos.get(vehiculos.size()-1).setStreet(calle);
+       vehiculos.get(vehiculos.size()-1).setSeccion(zona);
        admin.retornar_inicio(); 
        //-------------------------------------------
-       ingresar_vehiculo(vehiculos, "alisson2", prague);
+       vehiculo=ingresar_vehiculo(vehiculos, "alisson2", prague);
       // admin.retornar_inicio();
        admin.mirar_desocupado();
        zona=zona_con_menos_vehiculos(admin.getZona1(), admin.getZona2(), admin.getZona3());
        
        System.out.println("zona"+zona);
-       admin.parquear_en_la_zona(zona);
-       
+       calle=admin.parquear_en_la_zona(zona);
+       vehiculos.get(vehiculos.size()-1).setStreet(calle);
+       vehiculos.get(vehiculos.size()-1).setSeccion(zona);
        admin.retornar_inicio(); 
        //-------------------------------------
-       ingresar_vehiculo(vehiculos, "alisson3", prague);
+       vehiculo=ingresar_vehiculo(vehiculos, "alisson3", prague);
       // admin.retornar_inicio();
        admin.mirar_desocupado();
        zona=zona_con_menos_vehiculos(admin.getZona1(), admin.getZona2(), admin.getZona3());
        
        System.out.println("zona"+zona);
-       admin.parquear_en_la_zona(zona);
-       
+       calle=admin.parquear_en_la_zona(zona);
+       vehiculos.get(vehiculos.size()-1).setStreet(calle);
+       vehiculos.get(vehiculos.size()-1).setSeccion(zona);
        admin.retornar_inicio(); 
 //----------------------------------------
        if(admin.parqueadero_lleno()){
@@ -144,34 +261,45 @@ ingresar_vehiculo(vehiculos, "juliana", prague);
            System.out.println("el parqueadero tiene cupos");
        }
        //-------sacar carro
-       for(int i=0;i<vehiculos.size();i++){
-       vehiculos.get(i).setposicion();
-       }
-       int callevehiculo=calle_vehiculo(1, "andres", vehiculos);
+      
+        callevehiculo=calle_vehiculo(1, "andres", vehiculos);
        System.out.println("calle"+callevehiculo);
        //admin.sacar_vehiculo(1, callevehiculo);
        admin.exit_vehiculo(1, callevehiculo);
-       horasalida("andres", vehiculos);
+       horasalida("andres", vehiculos,100);
+       vehiculos=anularcarro("andres",vehiculos);//para borrarlo del parqueadero
        //------------delvover vehiculos a parqueadero
        admin.devolverdelprovisional2(1);
  
 
 //--------mostrar vehiculos de la seccion
-       System.out.println("inserte la seccion para mostrar sus autos");
+      
+     
+      boolean seguir=true;
+      String siono;
+       while(seguir){
+            System.out.println("inserte la seccion para mostrar sus autos");
       seccion=in.nextInt();
-       System.out.println("en la seccion "+seccion+"se presentan los vehiculos con placas");
        for(Vehiculo v:vehiculos){
-      if(v.getStreet()==4&&seccion==1){
+      if(v.getSeccion()==1&&seccion==1){
           System.out.println(v.getPlaca());
           
-      }else if(v.getStreet()==8&&seccion==2){
+      }else if(v.getSeccion()==2&&seccion==2){
         System.out.println(v.getPlaca());
           
-      }else if(v.getStreet()==12&&seccion==3){
+      }else if(v.getSeccion()==3&&seccion==3){
         System.out.println(v.getPlaca());
           
       }
       }
+           System.out.println("desea continuar? y/n");
+       siono=in.next();
+       if(siono.equalsIgnoreCase("y")){
+       
+       }else{
+       seguir=false;
+       }
+       }
        
    }
    public static void crear_linea_muros(City ciudad,int inicialx,int inicialy,int numero_muros,Direction direccion_a_la_que_mira,Direction hacia_donde_va_la_fila){
@@ -217,7 +345,7 @@ ingresar_vehiculo(vehiculos, "juliana", prague);
   sumas[0]=suma1;
   sumas[1]=suma2;
   sumas[2]=suma3;
-  int menor=sumas[2];
+  int menor=sumas[0];
   for(int i=1;i<3;i++){
   if(sumas[i]<sumas[i-1]){
   menor=sumas[i];
@@ -244,15 +372,18 @@ ingresar_vehiculo(vehiculos, "juliana", prague);
   }
    return street;
    }
-  public static int horasalida(String Placa,ArrayList<Vehiculo>vehiculos){
-  int horasalida, minutos,segundos;
+  public static double horasalida(String Placa,ArrayList<Vehiculo>vehiculos, double tarifaminuto){
+  double horasalida, minutos,segundos;
       for(Vehiculo v:vehiculos){
   if(Placa.equalsIgnoreCase(v.getPlaca())){
   Calendar micalendario=new GregorianCalendar();
  horasalida= micalendario.get(HOUR_OF_DAY);
  minutos=micalendario.get(Calendar.MINUTE);
  segundos=micalendario.get(Calendar.SECOND);
- System.out.println("Cobro con precio de 100 por minuto  = "+""+((v.getHora()-horasalida)*60*100));
+
+  System.out.println("Minutos que duro el carro: "+""+(((horasalida-v.getHora())*60)+((minutos-v.getMinutos()))));
+  System.out.println("Cobro: "+""+(((horasalida-v.getHora())*60*tarifaminuto)+((minutos-v.getMinutos())*tarifaminuto)));
+  horasalida=(((horasalida-v.getHora())*60*tarifaminuto)+((minutos-v.getMinutos())*tarifaminuto));
       System.out.println("Hora de salida: "+horasalida+":"+minutos+":"+segundos);
               
       return horasalida;
@@ -260,7 +391,17 @@ ingresar_vehiculo(vehiculos, "juliana", prague);
   }
   return 0;
   }
+  public static ArrayList<Vehiculo> anularcarro(String Placa, ArrayList<Vehiculo>vehiculos){
+  for(int i=0;i<vehiculos.size();i++){
+  if(vehiculos.get(i).getPlaca().equalsIgnoreCase(Placa)){
+  vehiculos.remove(i);
+  }
   
+  }
+  return vehiculos;
+  
+  
+  }
   }
   
    

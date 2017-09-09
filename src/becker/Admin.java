@@ -64,7 +64,7 @@ public class Admin extends Robot {
         this.turnLeft();
     }
 
-    public void mirar_desocupado() {
+    public int mirar_desocupado() {
         //for(int i=19;i>5;i--){
 
         //------
@@ -131,7 +131,29 @@ public class Admin extends Robot {
 
         }
         this.retornar_inicio();
-
+        int suma1=0;
+        int suma2=0;
+        int suma3=0;
+        for(int i=0;i<5;i++){
+        suma1+=this.zona1[i];
+        suma2+=this.zona2[i];
+        suma3+=this.zona3[i];
+        }
+        int menor=0;
+        System.out.println("seccion 1 tiene:"+suma1+"carros");
+        System.out.println("seccion 2 tiene:"+suma2+"carros");
+        System.out.println("seccion 3 tiene:"+suma3+"carros");
+        
+        int []sumas=new int [3];
+        sumas[0]=suma1;
+        sumas[1]=suma2;
+        sumas[2]=suma3;
+        for(int i=1;i<3;i++){
+        if(sumas[i-1]<=sumas[i]){
+        menor=sumas[i-1];
+        }
+        }
+return menor;
     }
 
     public void salir_de_zona() {
@@ -227,7 +249,7 @@ public class Admin extends Robot {
             for (int i = 0; i < 6; i++) {
                 if (this.canPickThing() == false && this.countThingsInBackpack() != 0) {
                     this.putThing();
-                    this.getStreet();
+                    calle=this.getStreet();
                 } else {
                     this.move();
                 }
@@ -351,8 +373,14 @@ this.move();
 
 } */ 
         
-        do {
-            while (this.getAvenue() != topex) {
+       // do {
+       while (this.getAvenue() != topex) {
+                this.move();
+
+            }
+        calle = extraer(street);
+         while (calle-1> street){
+       while (this.getAvenue() != topex) {
                 this.move();
 
             }
@@ -360,8 +388,8 @@ this.move();
              parqueaderos=this.provisional();
             parquearenprovisional2(parqueaderos);
             
-        } while (calle-1> street);
-        
+        //} while (calle-1> street);
+         }
         while (this.getAvenue() != topex) {
                 this.move();
 
@@ -378,6 +406,14 @@ this.move();
 this.turnLeft();
 this.turnLeft();
 this.turnLeft();
+
+
+
+
+
+
+
+ 
 
        // while (this.getAvenue() != topex) {
          //   this.move();
@@ -742,7 +778,101 @@ this.retornar_inicio();
         n++;
         
        }
-    }         
+    }
+     public void exit_vehiculo2(int zona, int street) {
+        int topex = 0, topey = street, posprovisional, calle;
+         int []parqueaderosseccion=new int [5];
+         boolean[]parqueaderos;
+        if (zona == 3) {
+            topex = 12;
+        } else if (zona == 2) {
+            topex = 8;
+        } else if (zona == 1) {
+            topex = 4;
+        } else {
+            System.out.println(" seccion no definida");
+        }
+        /*while(this.getAvenue()!=topex){
+this.move();
+
+} */ 
+        
+       // do {
+      
+       while (this.getAvenue() != topex) {
+                this.move();
+
+            }
+       this.turnLeft();
+       this.turnLeft();
+       this.turnLeft();
+       for(int i=0;i<5;i++){
+       this.move();
+       }
+          this.turnLeft();
+          this.turnLeft();
+          for(int i=4;i>=0;i--){
+          if(this.canPickThing()&&this.getStreet()==street){
+          parqueaderosseccion[i]=2;
+          this.move();
+          }else if(this.canPickThing()){
+          parqueaderosseccion[i]=1;
+          this.move();
+          }else if(!this.canPickThing()){
+          parqueaderosseccion[i]=0;
+          this.move();
+          }
+          }
+          this.retornar_inicio();
+          int contador=0;
+          for(int i=0;i<5;i++){
+          if(parqueaderosseccion[i]==0){
+          
+          }else if(parqueaderosseccion[i]==1){
+          contador++;
+          }else if(parqueaderosseccion[i]==2){
+          break;
+          }
+          
+          }
+          System.out.println("contador ="+contador);
+          
+          for(int i=0;i<contador;i++){
+            
+       while (this.getAvenue() != topex) {
+                this.move();
+
+            }
+              calle = extraer(street);
+             parqueaderos=this.provisional();
+            parquearenprovisional2(parqueaderos);
+          
+          }
+           while (this.getAvenue() != topex) {
+                this.move();
+
+            }
+        extraer(street);
+        this.turnLeft();
+        this.turnLeft();
+        this.turnLeft();
+        this.move();
+        this.putThing();
+        this.turnLeft();
+        this.turnLeft();
+        this.move();
+this.turnLeft();
+this.turnLeft();
+this.turnLeft();
+          
+
+
+
+
+
+
+    }
+
         
 }
 
