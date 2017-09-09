@@ -127,7 +127,7 @@ public class DeliverParcel
        
        
        
-       
+       /*
        
        
        
@@ -298,8 +298,8 @@ vehiculo=ingresar_vehiculo(vehiculos, "juliana", prague);
        
        }else{
        seguir=false;
-       }
-       }
+       }*/
+       
        
    }
    public static void crear_linea_muros(City ciudad,int inicialx,int inicialy,int numero_muros,Direction direccion_a_la_que_mira,Direction hacia_donde_va_la_fila){
@@ -373,7 +373,8 @@ vehiculo=ingresar_vehiculo(vehiculos, "juliana", prague);
    return street;
    }
   public static double horasalida(String Placa,ArrayList<Vehiculo>vehiculos, double tarifaminuto){
-  double horasalida, minutos,segundos;
+  double cobro;
+  int horasalida, minutos,segundos;
       for(Vehiculo v:vehiculos){
   if(Placa.equalsIgnoreCase(v.getPlaca())){
   Calendar micalendario=new GregorianCalendar();
@@ -383,10 +384,10 @@ vehiculo=ingresar_vehiculo(vehiculos, "juliana", prague);
 
   System.out.println("Minutos que duro el carro: "+""+(((horasalida-v.getHora())*60)+((minutos-v.getMinutos()))));
   System.out.println("Cobro: "+""+(((horasalida-v.getHora())*60*tarifaminuto)+((minutos-v.getMinutos())*tarifaminuto)));
-  horasalida=(((horasalida-v.getHora())*60*tarifaminuto)+((minutos-v.getMinutos())*tarifaminuto));
+  cobro=(((horasalida-v.getHora())*60*tarifaminuto)+((minutos-v.getMinutos())*tarifaminuto));
       System.out.println("Hora de salida: "+horasalida+":"+minutos+":"+segundos);
               
-      return horasalida;
+      return cobro;
   }
   }
   return 0;
